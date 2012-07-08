@@ -1,3 +1,4 @@
+import os
 import platform
 from .backup_file import BackupFile
 
@@ -9,12 +10,16 @@ class BasePlugin(object):
     support_os = []
 
     def backup(self):
+        if not self.detect():
+            return
         print('Backuping {}...'.format(self.Name))
 
     def detect(self):
         raise NotImplementedError
 
     def restore(self):
+        if not os.path.exists(os.path.join('.', 'backups', self.Name + '.tar.bz2')):
+            return
         print('Restoring {}...'.format(self.Name))
 
     @property
