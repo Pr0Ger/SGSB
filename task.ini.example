@@ -1,3 +1,7 @@
 [Braid]
 backup = True
 restore = True
+
+[Zombie Shooter]
+backup = True
+restore = True
