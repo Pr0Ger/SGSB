@@ -23,8 +23,12 @@ class BackupFile(object):
                 archive_name = "data/{}/{}".format(id, it)
                 self.__file.add(os.path.join(path, it), archive_name)
 
-    def add_folder(self, id, path):
-        raise NotImplementedError
+    def add_folder(self, id, path, folder):
+        full_path = os.path.join(path, folder)
+        if os.path.exists(full_path):
+            print(' backuping folder {}'.format(full_path))
+            archive_name = "data/{}".format(id)
+            self.__file.add(full_path, archive_name)
 
     def restore_files(self, id, path, files):
         if not os.path.exists(path):
@@ -41,3 +45,20 @@ class BackupFile(object):
                 self.__file.extract(current_file, path)
             except KeyError:
                 pass
+
+    def restore_folder(self, id, path, folder):
+        full_path = os.path.join(path, folder)
+        print(' restoring folder {}'.format(full_path))
+
+        if not os.path.exists(full_path):
+            os.makedirs(full_path)
+
+        archive_name = "data/{}".format(id)
+
+        subdir_and_files = []
+        for it in self.__file.getmembers():
+            if it.name.startswith(archive_name):
+                it.name = it.name[(6 + len(id)):]
+                subdir_and_files.append(it)
+
+        self.__file.extractall(full_path, subdir_and_files)
