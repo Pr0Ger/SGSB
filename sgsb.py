@@ -37,6 +37,13 @@ for task in args.tasks:
                 Task[it][opt] = task_reader.getboolean(it, opt)
 
         for plugin in plugins.PluginsList:
-            if plugin.available and Task[plugin.Name][task]:
-                print()
-                getattr(plugin, task)()
+            if plugin.Name in Task and Task[plugin.Name][task]:
+                if plugin.available:
+                    try:
+                        print()
+                        getattr(plugin, task)()
+                    except IOError:
+                        pass
+                else:
+                    print('')
+                    print('Game {} isn\'t supported on your current platform...'.format(plugin.Name))

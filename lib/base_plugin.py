@@ -11,7 +11,8 @@ class BasePlugin(object):
 
     def backup(self):
         if not self.detect():
-            return
+            print('Game {} isn\'t installed.'.format(self.Name))
+            raise IOError
         print('Backuping {}...'.format(self.Name))
 
     def detect(self):
@@ -19,7 +20,8 @@ class BasePlugin(object):
 
     def restore(self):
         if not os.path.exists(os.path.join('.', 'backups', self.Name + '.tar.bz2')):
-            return
+            print('Unable to find backup for {}.'.format(self.Name))
+            raise IOError
         print('Restoring {}...'.format(self.Name))
 
     @property
