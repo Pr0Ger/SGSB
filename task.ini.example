@@ -5,3 +5,7 @@ restore = True
 [Zombie Shooter]
 backup = True
 restore = True
+
+[Zombie Shooter 2]
+backup = True
+restore = True
