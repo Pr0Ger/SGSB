@@ -3,7 +3,7 @@ from lib.base_plugin import BasePlugin
 from lib.paths import MyDocumentsPath
 
 
-class ZombieShooterPlugin(BasePlugin):
+class VVVVVVPlugin(BasePlugin):
     Name = "VVVVVV"
     support_os = ["Windows"]
 
