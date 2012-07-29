@@ -12,13 +12,13 @@ if platform.system() == 'Windows':
     dll = ctypes.windll.shell32
     buf = ctypes.create_unicode_buffer(MAX_PATH + 1)
     if dll.SHGetSpecialFolderPathW(None, buf, 0x0005, False):
-        MyDocumentsPath = buf.value
+        MyDocumentsPath = os.path.normcase(buf.value)
 
     from winreg import HKEY_CURRENT_USER, OpenKey, QueryValueEx
 
     try:
         key = OpenKey(HKEY_CURRENT_USER, 'Software\\Valve\\Steam')
         SteamPath = QueryValueEx(key, 'SteamPath')[0]
-        SteamGamesPath = os.path.join(SteamPath, 'steamapps', 'common')
+        SteamGamesPath = os.path.normcase(os.path.join(SteamPath, 'steamapps', 'common'))
     except WindowsError:
         pass
