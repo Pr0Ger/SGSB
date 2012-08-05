@@ -13,6 +13,18 @@ class BackupFile(object):
     def __del__(self):
         self.__file.close()
 
+    def __add_file(self, archive_path, full_path, depth=0):
+        for it in os.listdir(full_path):
+            new_archive_path = '/'.join([archive_path, it])
+            new_full_path = os.path.join(full_path, it)
+
+            if os.path.isdir(os.path.join(full_path, it)):
+                print(' ' * depth, ' {}/'.format(it))
+                self.__add_file(new_archive_path, new_full_path, depth + 1)
+            else:
+                print(' ' * depth, ' {}'.format(it))
+                self.__file.add(new_full_path, new_archive_path)
+
     def add_files(self, id, path, files):
         if isinstance(files, str):
             files = [files]
@@ -28,7 +40,7 @@ class BackupFile(object):
         if os.path.exists(full_path):
             print(' backuping folder {}'.format(full_path))
             archive_name = "data/{}".format(id)
-            self.__file.add(full_path, archive_name)
+            self.__add_file(archive_name, full_path)
 
     def restore_files(self, id, path, files):
         if not os.path.exists(path):
