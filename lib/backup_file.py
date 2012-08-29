@@ -5,6 +5,8 @@ import os
 class BackupFile(object):
 
     def __init__(self, Name, write):
+        restricted_characters = '/\\?%*:|"<>'
+        Name = ''.join(filter(lambda x: x not in restricted_characters, Name))
         if write:
             self.__file = tarfile.open(os.path.join('.', 'backups', Name + '.tar.bz2'), 'w:bz2')
         else:
