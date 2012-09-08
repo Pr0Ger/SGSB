@@ -9,6 +9,9 @@ class BasePlugin(object):
     current_os = platform.system()
     support_os = []
 
+    def __init__(self):
+        self.archive_file = None
+
     def backup(self):
         if not self.detect():
             print('Game {} isn\'t installed.'.format(self.Name))
@@ -30,8 +33,16 @@ class BasePlugin(object):
 
     @property
     def backup_file(self):
-        return BackupFile(self.Name, True)
+        if self.archive_file:
+            return self.archive_file
+        else:
+            self.archive_file = BackupFile(self.Name, True)
+            return self.archive_file
 
     @property
     def restore_file(self):
-        return BackupFile(self.Name, False)
+        if self.archive_file:
+            return self.archive_file
+        else:
+            self.archive_file = BackupFile(self.Name, False)
+            return self.archive_file
