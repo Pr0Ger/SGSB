@@ -4,7 +4,7 @@ from lib.paths import SteamGamesPath
 
 
 class STALKERPlugin(BasePlugin):
-    Name = "S.T.A.L.K.E.R."
+    Name = "S.T.A.L.K.E.R.: Shadow of Chernobyl (RU)"
     support_os = ["Windows"]
 
     def backup(self):
