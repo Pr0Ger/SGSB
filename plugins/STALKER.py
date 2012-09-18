@@ -18,7 +18,7 @@ def factory(name, folder):
             super().restore()
             path_to_appdata = os.path.join(SteamGamesPath, folder, '_appdata_')
             self.restore_file.restore_folder('Saves', path_to_appdata, 'savedgames')
-            self.restore_files('Settings', path_to_appdata, 'user.ltx')
+            self.restore_file.restore_files('Settings', path_to_appdata, 'user.ltx')
 
         def detect(self):
             if os.path.isdir(os.path.join(SteamGamesPath, folder)):
