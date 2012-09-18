@@ -22,7 +22,9 @@ class BasePlugin(object):
         raise NotImplementedError
 
     def restore(self):
-        if not os.path.exists(os.path.join('.', 'backups', self.Name + '.tar.bz2')):
+        restricted_characters = '/\\?%*:|"<>'
+        backup_name = ''.join(filter(lambda x: x not in restricted_characters, self.Name))
+        if not os.path.exists(os.path.join('.', 'backups', backup_name + '.tar.bz2')):
             print('Unable to find backup for {}.'.format(self.Name))
             raise IOError
         print('Restoring {}...'.format(self.Name))
