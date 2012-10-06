@@ -8,17 +8,15 @@ def factory(name, folder):
         Name = name
         support_os = ["Windows"]
 
-        def backup(self):
-            super().backup()
+        def backup(self, _):
             path_to_appdata = os.path.join(SteamGamesPath, folder, '_appdata_')
-            self.backup_file.add_folder('Saves', path_to_appdata, 'savedgames')
-            self.backup_file.add_files('Settings', path_to_appdata, 'user.ltx')
+            _.add_folder('Saves', path_to_appdata, 'savedgames')
+            _.add_files('Settings', path_to_appdata, 'user.ltx')
 
-        def restore(self):
-            super().restore()
+        def restore(self, _):
             path_to_appdata = os.path.join(SteamGamesPath, folder, '_appdata_')
-            self.restore_file.restore_folder('Saves', path_to_appdata, 'savedgames')
-            self.restore_file.restore_files('Settings', path_to_appdata, 'user.ltx')
+            _.restore_folder('Saves', path_to_appdata, 'savedgames')
+            _.restore_files('Settings', path_to_appdata, 'user.ltx')
 
         def detect(self):
             if os.path.isdir(os.path.join(SteamGamesPath, folder)):
@@ -28,6 +26,6 @@ def factory(name, folder):
     return TempPlugin
 
 
-STALKERPlugin = factory("S.T.A.L.K.E.R.: Shadow of Chernobyl (RU)", 'stalker shadow of chernobyl ru')
-STALKERPlugin = factory("S.T.A.L.K.E.R.: Clear Sky", 'stalker clear sky')
-STALKERPlugin = factory("S.T.A.L.K.E.R.: Call of Pripyat", 'stalker call of pripyat')
+STALKERSoCRUPlugin = factory("S.T.A.L.K.E.R.: Shadow of Chernobyl (RU)", 'stalker shadow of chernobyl ru')
+STALKERCSPlugin = factory("S.T.A.L.K.E.R.: Clear Sky", 'stalker clear sky')
+STALKERCoPPlugin = factory("S.T.A.L.K.E.R.: Call of Pripyat", 'stalker call of pripyat')
