@@ -12,7 +12,10 @@ class BackupFile(object):
         else:
             self.__file = tarfile.open(os.path.join('.', 'backups', Name + '.tar.bz2'), 'r:bz2', encoding='utf-8')
 
-    def __del__(self):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
         self.__file.close()
 
     def __add_file(self, archive_path, full_path, depth=0):

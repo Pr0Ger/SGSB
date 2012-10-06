@@ -13,13 +13,11 @@ class BraidPlugin(BasePlugin):
         'slot_4.braid_campaign'
     ]
 
-    def backup(self):
-        super().backup()
-        self.backup_file.add_files('Saves', os.path.join(os.environ['APPDATA'], 'Braid'), self.saves)
+    def backup(self, _):
+        _.add_files('Saves', os.path.join(os.environ['APPDATA'], 'Braid'), self.saves)
 
-    def restore(self):
-        super().restore()
-        self.restore_file.restore_files('Saves', os.path.join(os.environ['APPDATA'], 'Braid'), self.saves)
+    def restore(self, _):
+        _.restore_files('Saves', os.path.join(os.environ['APPDATA'], 'Braid'), self.saves)
 
     def detect(self):
         if self.current_os == 'Windows':
