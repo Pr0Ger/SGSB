@@ -2,6 +2,7 @@ import argparse
 import configparser
 import os
 from lib import plugins
+from lib import win_console
 
 parser = argparse.ArgumentParser(description='Simple game saves backup tool.')
 Tasks = parser.add_argument_group('Tasks')
