@@ -35,7 +35,7 @@ class BasePlugin(object):
     def __restore(self):
         restricted_characters = '/\\?%*:|"<>'
         backup_name = ''.join(filter(lambda x: x not in restricted_characters, self.Name))
-        if not os.path.exists(os.path.join('.', 'backups', backup_name + '.tar.bz2')):
+        if not os.path.exists(os.path.join('.', 'backups', backup_name + '.tar.xz')):
             print('Unable to find backup for {}.'.format(self.Name))
             raise IOError
         print('Restoring {}...'.format(self.Name))

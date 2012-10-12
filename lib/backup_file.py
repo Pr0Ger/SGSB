@@ -8,9 +8,9 @@ class BackupFile(object):
         restricted_characters = '/\\?%*:|"<>'
         Name = ''.join(filter(lambda x: x not in restricted_characters, Name))
         if write:
-            self.__file = tarfile.open(os.path.join('.', 'backups', Name + '.tar.bz2'), 'w:bz2', encoding='utf-8')
+            self.__file = tarfile.open(os.path.join('.', 'backups', Name + '.tar.xz'), 'w:xz', encoding='utf-8')
         else:
-            self.__file = tarfile.open(os.path.join('.', 'backups', Name + '.tar.bz2'), 'r:bz2', encoding='utf-8')
+            self.__file = tarfile.open(os.path.join('.', 'backups', Name + '.tar.xz'), 'r:xz', encoding='utf-8')
 
     def __enter__(self):
         return self

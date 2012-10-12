@@ -25,7 +25,7 @@ for task in args.tasks:
             file_name = ''.join(filter(lambda x: x not in restricted_characters, it.Name))
             name = it.Name + '' if it.available else ' (Not available)'
             installed = '+' if it.detect() else ' '
-            backuped = '+' if os.path.exists(os.path.join('.', 'backups', file_name + '.tar.bz2')) else ' '
+            backuped = '+' if os.path.exists(os.path.join('.', 'backups', file_name + '.tar.xz')) else ' '
 
             print('| %-53s |     %s     |    %s     |' %
                   (name, installed, backuped))
