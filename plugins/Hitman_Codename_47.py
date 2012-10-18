@@ -9,9 +9,11 @@ class HitmanCodename47Plugin(BasePlugin):
 
     def backup(self, _):
         _.add_files('Save', os.path.join(SteamGamesPath, 'Hitman Codename 47'), 'Hitman.sav')
+        _.add_files('Config', os.path.join(SteamGamesPath, 'Hitman Codename 47'), ['Hitman.cfg', 'hitman.ini'])
 
     def restore(self, _):
         _.restore_files('Save', os.path.join(SteamGamesPath, 'Hitman Codename 47'), 'Hitman.sav')
+        _.restore_files('Config', os.path.join(SteamGamesPath, 'Hitman Codename 47'), ['Hitman.cfg', 'hitman.ini'])
 
     def detect(self):
         if os.path.isdir(os.path.join(SteamGamesPath, 'Hitman Codename 47')):
