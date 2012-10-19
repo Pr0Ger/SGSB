@@ -3,6 +3,7 @@ import platform
 
 
 MyDocumentsPath = None
+SavedGamesPath = None
 SteamGamesPath = None
 
 if platform.system() == 'Windows':
@@ -22,3 +23,9 @@ if platform.system() == 'Windows':
         SteamGamesPath = os.path.normcase(os.path.join(SteamPath, 'steamapps', 'common'))
     except WindowsError:
         pass
+
+    profile_path = os.environ['USERPROFILE']
+
+    _ = os.path.join(profile_path, 'Saved Games')
+    if os.path.isdir(_):
+        SavedGamesPath = _
