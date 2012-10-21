@@ -3,7 +3,7 @@ from lib.base_plugin import BasePlugin
 
 
 class ZombieDriverPlugin(BasePlugin):
-    Name = "ZombieDriver"
+    Name = "Zombie Driver"
     support_os = ["Windows"]
 
     def backup(self, _):
