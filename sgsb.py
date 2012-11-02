@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import argparse
 import configparser
 import os
@@ -20,6 +22,7 @@ for task in args.tasks:
         print('+-------------------------------------------------------+-----------+----------+')
         print('| Name                                                  | Installed | Backuped |')
         print('+-------------------------------------------------------+-----------+----------+')
+
         for it in plugins.PluginsList:
             restricted_characters = '/\\?%*:|"<>'
             file_name = ''.join(filter(lambda x: x not in restricted_characters, it.Name))
@@ -27,8 +30,8 @@ for task in args.tasks:
             installed = '+' if it.detect() else ' '
             backuped = '+' if os.path.exists(os.path.join('.', 'backups', file_name + '.tar.xz')) else ' '
 
-            print('| %-53s |     %s     |    %s     |' %
-                  (name, installed, backuped))
+            print('| %-53s |     %s     |    %s     |' % (name, installed, backuped))
+
         print('+-------------------------------------------------------+-----------+----------+')
 
     if task == "backup" or task == "restore":
