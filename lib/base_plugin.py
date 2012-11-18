@@ -11,6 +11,7 @@ class BasePlugin(object):
 
     def __init__(self):
         __old_backup_func = self.backup
+
         def __backup_closure():
             self.__backup()
             with self.backup_file() as _:
@@ -19,6 +20,7 @@ class BasePlugin(object):
         self.backup = __backup_closure
 
         __old_restore_func = self.restore
+
         def __restore_closure():
             self.__restore()
             with self.restore_file() as _:
@@ -40,6 +42,9 @@ class BasePlugin(object):
             raise IOError
         print('Restoring {}...'.format(self.Name))
 
+    def init(self):
+        pass
+
     def backup(self, _):
         raise NotImplementedError
 
@@ -58,4 +63,3 @@ class BasePlugin(object):
     @property
     def available(self):
         return self.current_os in self.support_os
-

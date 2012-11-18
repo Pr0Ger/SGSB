@@ -12,4 +12,6 @@ def LoadPlugins():
             pass
 
     for it in BasePlugin.__subclasses__():
-        PluginsList.append(it())
+        tmp = it()
+        tmp.init()
+        PluginsList.append(tmp)
