@@ -4,7 +4,7 @@ from lib.base_plugin import BasePlugin
 
 class BraidPlugin(BasePlugin):
     Name = "Braid"
-    support_os = ["Windows"]
+    support_os = ["Windows", "Darwin"]
     saves = [
         'slot_0.braid_campaign',
         'slot_1.braid_campaign',
@@ -13,14 +13,22 @@ class BraidPlugin(BasePlugin):
         'slot_4.braid_campaign'
     ]
 
+    def init(self):
+        if self.current_os == 'Windows':
+            self.path = os.path.join(os.environ['APPDATA'], 'Braid')
+
+        if self.current_os == 'Darwin':
+            self.path = os.path.join('~', 'Library', 'Preferences', 'Braid')
+            self.path = os.path.expanduser(self.path)
+
     def backup(self, _):
-        _.add_files('Saves', os.path.join(os.environ['APPDATA'], 'Braid'), self.saves)
+        _.add_files('Saves', self.path, self.saves)
 
     def restore(self, _):
-        _.restore_files('Saves', os.path.join(os.environ['APPDATA'], 'Braid'), self.saves)
+        _.restore_files('Saves', self.path, self.saves)
 
     def detect(self):
-        if self.current_os == 'Windows':
-            if os.path.isdir(os.path.join(os.environ['APPDATA'], 'Braid')):
-                return True
+        if os.path.isdir(self.path):
+            return True
+
         return False
