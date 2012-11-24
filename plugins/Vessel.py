@@ -13,7 +13,6 @@ class VesselPlugin(BasePlugin):
         _.restore_folder('Saves', os.environ['APPDATA'], 'Vessel')
 
     def detect(self):
-        if self.current_os == 'Windows':
-            if os.path.isdir(os.path.join(os.environ['APPDATA'], 'Vessel')):
-                return True
+        if os.path.isdir(os.path.join(os.environ['APPDATA'], 'Vessel')):
+            return True
         return False

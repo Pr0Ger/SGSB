@@ -22,9 +22,7 @@ class ZombieDriverPlugin(BasePlugin):
         ])
         _.restore_folder('Saves', os.path.join(os.environ['APPDATA'], 'ZombieDriver'), 'Save')
 
-
     def detect(self):
-        if self.current_os == 'Windows':
-            if os.path.isdir(os.path.join(os.environ['APPDATA'], 'ZombieDriver')):
-                return True
+        if os.path.isdir(os.path.join(os.environ['APPDATA'], 'ZombieDriver')):
+            return True
         return False
