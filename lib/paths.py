@@ -29,3 +29,7 @@ if platform.system() == 'Windows':
     _ = os.path.join(profile_path, 'Saved Games')
     if os.path.isdir(_):
         SavedGamesPath = _
+
+if platform.system() == 'Darwin':
+
+    MyDocumentsPath = os.path.expanduser(os.path.join('~', 'Documents'))
