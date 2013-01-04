@@ -7,6 +7,7 @@ class BasePlugin(object):
     Name = "Undefined"
     Author = "Pr0Ger"
     current_os = platform.system()
+    dependencies = []
     support_os = []
 
     def __init__(self):

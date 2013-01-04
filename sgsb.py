@@ -23,7 +23,7 @@ for task in args.tasks:
         print('| Name                                                  | Installed | Backuped |')
         print('+-------------------------------------------------------+-----------+----------+')
 
-        for it in plugins.PluginsList:
+        for (name, it) in plugins.plugins_list.items():
             restricted_characters = '/\\?%*:|"<>'
             file_name = ''.join(filter(lambda x: x not in restricted_characters, it.Name))
             name = it.Name + ('' if it.available else ' (Not available)')
@@ -35,23 +35,43 @@ for task in args.tasks:
         print('+-------------------------------------------------------+-----------+----------+')
 
     if task == "backup" or task == "restore":
+
+        def perform_task(name, task):
+            plugin = plugins.plugins_list[name]
+            if plugin.available:
+                for dep in plugin.dependencies:
+                    if dep in task_order:
+                        try:
+                            perform_task(dep, task)
+                        except IOError:
+                            print("WARN: Plugin '{}' require broken '{}' plugin.")
+                        task_order.remove(dep)
+
+                print()
+                getattr(plugin, task)()
+            else:
+                print('')
+                print('Game {} isn\'t supported on your current platform...'.format(plugin.Name))
+
         if not args.all:
-            Task = {}
+            task_order = set()
+
             task_reader = configparser.ConfigParser()
             task_reader.read('task.ini')
             for it in task_reader.sections():
-                Task[it] = {}
-                for opt in task_reader.options(it):
-                    Task[it][opt] = task_reader.getboolean(it, opt)
+                if task_reader.getboolean(it, task):
+                    task_order.add(it)
 
-        for plugin in plugins.PluginsList:
-            if args.all or (plugin.Name in Task and Task[plugin.Name][task]):
-                if plugin.available:
-                    try:
-                        print()
-                        getattr(plugin, task)()
-                    except IOError:
-                        pass
-                else:
-                    print('')
-                    print('Game {} isn\'t supported on your current platform...'.format(plugin.Name))
+                    if not it in plugins.plugins_list:
+                        print("WARN: Required plugin '{} doen't exists.".format(it))
+                    else:
+                        for dep in plugins.plugins_list[it].dependencies:
+                            task_order.add(dep)
+        else:
+            task_order = set(plugins.plugins_list.keys())
+
+        while task_order:
+            try:
+                perform_task(task_order.pop(), task)
+            except IOError:
+                pass

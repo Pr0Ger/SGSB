@@ -1,7 +1,7 @@
 import os
 from lib.base_plugin import BasePlugin
 
-PluginsList = []
+plugins_list = {}
 
 
 def LoadPlugins():
@@ -14,4 +14,5 @@ def LoadPlugins():
     for it in BasePlugin.__subclasses__():
         tmp = it()
         tmp.init()
-        PluginsList.append(tmp)
+
+        plugins_list[tmp.Name] = tmp
