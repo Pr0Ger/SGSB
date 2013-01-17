@@ -5,6 +5,7 @@ from lib.paths import MyDocumentsPath
 
 class Dirt2Plugin(BasePlugin):
     Name = "Colin McRae DiRT 2"
+    dependencies = ["Games for Windows Live profile"]
     support_os = ["Windows"]
 
     def backup(self, _):
