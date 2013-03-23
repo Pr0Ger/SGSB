@@ -3,23 +3,27 @@ from lib.base_plugin import BasePlugin
 from lib.paths import MyDocumentsPath
 
 
-class CrysisPlugin(BasePlugin):
-    Name = "Crysis"
-    support_os = ["Windows"]
+def factory(name, folder):
+    class TempPlugin(BasePlugin):
+        Name = name
+        support_os = ["Windows"]
 
-    def backup(self, _):
-        _.add_folder('Profiles', os.path.join(MyDocumentsPath, 'My Games', 'Crysis'), 'Profiles')
-        _.add_folder('Saves', os.path.join(MyDocumentsPath, 'My Games', 'Crysis'), 'SaveGames')
-        _.add_files('Config', os.path.join(MyDocumentsPath, 'My Games', 'Crysis'), 'game.cfg')
+        def backup(self, _):
+            _.add_folder('Profiles', os.path.join(MyDocumentsPath, 'My Games', folder), 'Profiles')
+            _.add_folder('Saves', os.path.join(MyDocumentsPath, 'My Games', folder), 'SaveGames')
+            _.add_files('Config', os.path.join(MyDocumentsPath, 'My Games', folder), 'game.cfg')
 
+        def restore(self, _):
+            _.restore_folder('Profiles', os.path.join(MyDocumentsPath, 'My Games', folder), 'Profiles')
+            _.restore_folder('Saves', os.path.join(MyDocumentsPath, 'My Games', folder), 'SaveGames')
+            _.restore_files('Config', os.path.join(MyDocumentsPath, 'My Games', folder), 'game.cfg')
 
-    def restore(self, _):
-        _.restore_folder('Profiles', os.path.join(MyDocumentsPath, 'My Games', 'Crysis'), 'Profiles')
-        _.restore_folder('Saves', os.path.join(MyDocumentsPath, 'My Games', 'Crysis'), 'SaveGames')
-        _.restore_files('Config', os.path.join(MyDocumentsPath, 'My Games', 'Crysis'), 'game.cfg')
+        def detect(self):
+            if os.path.isdir(os.path.join(MyDocumentsPath, 'My Games', folder)):
+                return True
+            return False
 
+    return TempPlugin
 
-    def detect(self):
-        if os.path.isdir(os.path.join(MyDocumentsPath, 'My Games', 'Crysis')):
-            return True
-        return False
+CrysisPlugin = factory("Crysis", 'Crysis')
+CrysisWarheadPlugin = factory("Crysis Warhead", 'Crysis_WARHEAD')
