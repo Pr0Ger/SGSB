@@ -5,6 +5,7 @@ import platform
 MyDocumentsPath = None
 SavedGamesPath = None
 SteamGamesPath = None
+SteamCloudPath = None
 
 if platform.system() == 'Windows':
     import ctypes
@@ -21,6 +22,8 @@ if platform.system() == 'Windows':
         key = OpenKey(HKEY_CURRENT_USER, 'Software\\Valve\\Steam')
         SteamPath = QueryValueEx(key, 'SteamPath')[0]
         SteamGamesPath = os.path.normcase(os.path.join(SteamPath, 'steamapps', 'common'))
+        userdata_dir = os.path.join(SteamPath, 'userdata')
+        SteamCloudPath = os.path.join(userdata_dir, os.listdir(userdata_dir)[0])
     except WindowsError:
         pass
 
