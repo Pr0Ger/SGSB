@@ -23,7 +23,8 @@ for task in args.tasks:
         print('| Name                                                  | Installed | Backuped |')
         print('+-------------------------------------------------------+-----------+----------+')
 
-        for (name, it) in plugins.plugins_list.items():
+        for name in sorted(plugins.plugins_list):
+            it = plugins.plugins_list[name]
             restricted_characters = '/\\?%*:|"<>'
             file_name = ''.join(filter(lambda x: x not in restricted_characters, it.Name))
             name = it.Name + ('' if it.available else ' (Not available)')
