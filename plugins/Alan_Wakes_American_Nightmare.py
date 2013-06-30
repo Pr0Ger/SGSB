@@ -13,7 +13,7 @@ class AlanWakesAmericanNightmarePlugin(BasePlugin):
 
     def restore(self, _):
         _.restore_folder('Settings', os.path.join(MyDocumentsPath, 'Remedy'), 'AmericanNightmare')
-        _.add_folder('Saves', os.path.join(SteamCloudPath, '202750'), 'remote')
+        _.restore_folder('Saves', os.path.join(SteamCloudPath, '202750'), 'remote')
 
     def detect(self):
         if os.path.isdir(os.path.join(SteamGamesPath, 'alan wakes american nightmare')):

@@ -13,7 +13,7 @@ class AlanWakePlugin(BasePlugin):
 
     def restore(self, _):
         _.restore_folder('Settings', os.path.join(MyDocumentsPath, 'Remedy'), 'AlanWake')
-        _.add_folder('Saves', os.path.join(SteamCloudPath, '108710'), 'remote')
+        _.restore_folder('Saves', os.path.join(SteamCloudPath, '108710'), 'remote')
 
     def detect(self):
         if os.path.isdir(os.path.join(SteamGamesPath, 'Alan Wake')):
