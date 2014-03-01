@@ -8,7 +8,7 @@ from lib import win_console
 
 parser = argparse.ArgumentParser(description='Simple game saves backup tool.')
 Tasks = parser.add_argument_group('Tasks')
-Tasks.add_argument('tasks', metavar='TASK', action='append', choices=['list', 'backup', 'restore'])
+Tasks.add_argument('tasks', metavar='TASK', action='append', choices=['auth', 'list', 'backup', 'restore'])
 Tasks.add_argument('--all', action='store_true', help="Ignore task.ini and perform task for all available games")
 
 args = parser.parse_args()
@@ -16,6 +16,23 @@ args = parser.parse_args()
 plugins.LoadPlugins()
 
 for task in args.tasks:
+    if task == "auth":
+        import dropbox
+        from lib.dropbox import app_key, app_secret
+
+        flow = dropbox.client.DropboxOAuth2FlowNoRedirect(app_key, app_secret)
+
+        authorize_url = flow.start()
+        print('1. Go to: ' + authorize_url)
+        print('2. Click "Allow" (you might have to log in first)')
+        print('3. Copy the authorization code.')
+        code = input("Enter the authorization code here: ").strip()
+
+        access_token, user_id = flow.finish(code)
+
+        access_file = open('.dropbox_access_token', 'w')
+        access_file.write(access_token)
+        access_file.close()
 
     if task == "list":
         print()
