@@ -18,7 +18,6 @@ plugins.LoadPlugins()
 
 for task in args.tasks:
     if task == "auth":
-        import dropbox
         from lib.dropbox import app_key, app_secret
 
         flow = dropbox.client.DropboxOAuth2FlowNoRedirect(app_key, app_secret)
