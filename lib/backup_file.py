@@ -1,5 +1,7 @@
+import dropbox
 import tarfile
 import os
+from tempfile import TemporaryFile
 
 
 class BackupFile(object):
@@ -7,16 +9,43 @@ class BackupFile(object):
     def __init__(self, Name, write):
         restricted_characters = '/\\?%*:|"<>'
         Name = ''.join(filter(lambda x: x not in restricted_characters, Name))
+
+        self.__write = write
+        self.__dropbox_client = None
+        if os.path.exists('.dropbox_access_token'):
+            access_file = open('.dropbox_access_token', 'r')
+            access_token = access_file.read()
+            self.__dropbox_client = dropbox.client.DropboxClient(access_token)
+
         if write:
-            self.__file = tarfile.open(os.path.join('.', 'backups', Name + '.tar.xz'), 'w:xz', encoding='utf-8')
+            if self.__dropbox_client:
+                self.__tmp_file = TemporaryFile()
+                self.__file_name = '/%s.tar.xz' % (Name,)
+
+                self.__file = tarfile.open(mode='w:xz', fileobj=self.__tmp_file, encoding='utf-8')
+            else:
+                self.__file = tarfile.open(os.path.join('.', 'backups', Name + '.tar.xz'), 'w:xz', encoding='utf-8')
         else:
-            self.__file = tarfile.open(os.path.join('.', 'backups', Name + '.tar.xz'), 'r:xz', encoding='utf-8')
+            if self.__dropbox_client:
+                remote_file = self.__dropbox_client.get_file('/%s.tar.xz' % (Name,))
+                self.__tmp_file = TemporaryFile()
+                self.__tmp_file.write(remote_file.read())
+                self.__tmp_file.seek(0)
+
+                self.__file = tarfile.open(mode='r:xz', fileobj=self.__tmp_file, encoding='utf-8')
+            else:
+                self.__file = tarfile.open(os.path.join('.', 'backups', Name + '.tar.xz'), 'r:xz', encoding='utf-8')
 
     def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.__file.close()
+
+        self.__tmp_file.seek(0)
+        if self.__write and self.__dropbox_client:
+            print(' uploading to Dropbox...')
+            self.__dropbox_client.put_file(self.__file_name, self.__tmp_file, overwrite=True)
 
     def __add_file(self, archive_path, full_path, depth=0):
         for it in os.listdir(full_path):
