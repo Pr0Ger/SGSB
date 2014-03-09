@@ -2,6 +2,7 @@
 
 import argparse
 import configparser
+import dropbox
 import os
 from lib import plugins
 from lib import win_console
@@ -35,6 +36,27 @@ for task in args.tasks:
         access_file.close()
 
     if task == "list":
+        backups_dropbox = []
+
+        if os.path.exists('.dropbox_access_token'):
+            access_file = open('.dropbox_access_token', 'r')
+            access_token = access_file.read()
+            dropbox_client = dropbox.client.DropboxClient(access_token)
+
+            root_folder = dropbox_client.metadata('/')
+            for it in root_folder['contents']:
+                backups_dropbox.append(it['path'][1:])
+
+        def check_exists(file_name):
+            storage_name = file_name + '.tar.xz'
+
+            if storage_name in backups_dropbox:
+                return True
+            if os.path.exists(os.path.join('.', 'backups', storage_name)):
+                return True
+
+            return False
+
         print()
         print('+-------------------------------------------------------+-----------+----------+')
         print('| Name                                                  | Installed | Backuped |')
@@ -46,7 +68,7 @@ for task in args.tasks:
             file_name = ''.join(filter(lambda x: x not in restricted_characters, it.Name))
             name = it.Name + ('' if it.available else ' (Not available)')
             installed = '+' if it.available and it.detect() else ' '
-            backuped = '+' if os.path.exists(os.path.join('.', 'backups', file_name + '.tar.xz')) else ' '
+            backuped = '+' if check_exists(file_name) else ' '
 
             print('| %-53s |     %s     |    %s     |' % (name, installed, backuped))
 
