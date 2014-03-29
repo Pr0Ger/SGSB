@@ -26,7 +26,8 @@ for task in args.tasks:
         print('1. Go to: ' + authorize_url)
         print('2. Click "Allow" (you might have to log in first)')
         print('3. Copy the authorization code.')
-        code = input("Enter the authorization code here: ").strip()
+        print("Enter the authorization code here: ", end='')
+        code = input().strip()  # Using input with argument produce error on windows
 
         access_token, user_id = flow.finish(code)
 
