@@ -3,6 +3,7 @@ This is a simple tool to backup game saves.
 
 ## Commands
 
+- `sgsb.py auth` — Authenticate in Dropbox. All saves after authentication will be stored in Dropbox folder.
 - `sgsb.py backup` — Backup saves for games selected in task.ini
 - `sgsb.py list` — Show list of games
 - `sgsb.py restore` — Restore saves for games selected in task.ini
