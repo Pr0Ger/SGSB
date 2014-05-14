@@ -66,7 +66,11 @@ for task in args.tasks:
             it = plugins.plugins_list[name]
             restricted_characters = '/\\?%*:|"<>'
             file_name = ''.join(filter(lambda x: x not in restricted_characters, it.Name))
-            name = it.Name + ('' if it.available else ' (Not available)')
+            if it.available:
+                name = it.Name[:50] + '...' if len(it.Name) > 53 else it.Name
+            else:
+                name = it.Name[:34] + '... (Not available)' if (len(it.Name) > 37) else it.Name
+
             installed = '+' if it.available and it.detect() else ' '
             backuped = '+' if check_exists(file_name) else ' '
 
