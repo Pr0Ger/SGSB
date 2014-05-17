@@ -1,7 +1,9 @@
 import dropbox
 import tarfile
 import os
+import sys
 from tempfile import TemporaryFile
+from lib.chunked_uploader import ChunkedProgressUploader
 
 
 class BackupFile(object):
@@ -44,8 +46,19 @@ class BackupFile(object):
 
         self.__tmp_file.seek(0)
         if self.__write and self.__dropbox_client:
-            print(' uploading to Dropbox...')
-            self.__dropbox_client.put_file(self.__file_name, self.__tmp_file, overwrite=True)
+            sys.stdout.write(' uploading to Dropbox...')
+            sys.stdout.flush()
+
+            size = os.fstat(self.__tmp_file.fileno()).st_size
+            uploader = ChunkedProgressUploader(self.__dropbox_client, self.__tmp_file, size)
+
+            for offset in uploader.upload_chunked():
+                sys.stdout.write('\r uploading to Dropbox... ({0:f}%)'.format(offset / size * 100))
+                sys.stdout.flush()
+
+            uploader.finish(self.__file_name, overwrite=True)
+
+            print()
 
     def __add_file(self, archive_path, full_path, depth=0):
         for it in os.listdir(full_path):
