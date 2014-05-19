@@ -36,3 +36,12 @@ if platform.system() == 'Windows':
 if platform.system() == 'Darwin':
 
     MyDocumentsPath = os.path.expanduser(os.path.join('~', 'Documents'))
+    
+    SteamPath = os.path.expanduser(os.path.join('~', 'Library', 'Application Support', 'Steam'))
+    if os.path.exists(SteamPath):
+        SteamGamesPath = os.path.normcase(os.path.join(SteamPath, 'SteamApps', 'common'))
+        userdata_dir = os.path.join(SteamPath, 'userdata')
+
+        for it in os.listdir(userdata_dir):
+            if it != '.DS_Store':
+                SteamCloudPath = os.path.join(userdata_dir, it)
