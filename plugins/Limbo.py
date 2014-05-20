@@ -5,7 +5,7 @@ from lib.paths import SteamCloudPath, SteamGamesPath
 
 class LIMBOPlugin(BasePlugin):
     Name = "LIMBO"
-    support_os = ["Windows"]
+    support_os = ["Windows", "Darwin"]
 
     def backup(self, _):
         _.add_folder('Data', os.path.join(SteamCloudPath, '48000'), 'remote')
