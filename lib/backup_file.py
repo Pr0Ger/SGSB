@@ -46,7 +46,7 @@ class BackupFile(object):
 
         self.__tmp_file.seek(0)
         if self.__write and self.__dropbox_client:
-            sys.stdout.write(' uploading to Dropbox...')
+            sys.stdout.write(' uploading to Dropbox... (0%)')
             sys.stdout.flush()
 
             size = os.fstat(self.__tmp_file.fileno()).st_size
