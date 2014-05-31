@@ -88,7 +88,7 @@ for task in args.tasks:
                         try:
                             perform_task(dep, task)
                         except IOError:
-                            print("WARN: Plugin '{}' require broken '{}' plugin.")
+                            print("WARN: Plugin '{}' require broken '{}' plugin.".format(plugin.Name, dep))
                         task_order.remove(dep)
 
                 print()
