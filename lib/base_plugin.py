@@ -50,7 +50,8 @@ class BasePlugin(object):
             for it in root_folder['contents']:
                 backups_dropbox.append(it['path'][1:])
 
-        if not os.path.exists(os.path.join('.', 'backups', backup_name + '.tar.xz')) and backup_name not in backups_dropbox:
+        if not os.path.exists(os.path.join('.', 'backups', backup_name + '.tar.xz')) and \
+           not backup_name + '.tar.xz' in backups_dropbox:
             print('Unable to find backup for {}.'.format(self.Name))
             raise IOError
         print('Restoring {}...'.format(self.Name))
