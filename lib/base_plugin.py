@@ -38,7 +38,18 @@ class BasePlugin(object):
     def __restore(self):
         restricted_characters = '/\\?%*:|"<>'
         backup_name = ''.join(filter(lambda x: x not in restricted_characters, self.Name))
-        if not os.path.exists(os.path.join('.', 'backups', backup_name + '.tar.xz')):
+
+        backups_dropbox = []
+        if os.path.exists('.dropbox_access_token'):
+            access_file = open('.dropbox_access_token', 'r')
+            access_token = access_file.read()
+            dropbox_client = dropbox.client.DropboxClient(access_token)
+
+            root_folder = dropbox_client.metadata('/')
+            for it in root_folder['contents']:
+                backups_dropbox.append(it['path'][1:])
+
+        if not os.path.exists(os.path.join('.', 'backups', backup_name + '.tar.xz')) and backup_name not in backups_dropbox:
             print('Unable to find backup for {}.'.format(self.Name))
             raise IOError
         print('Restoring {}...'.format(self.Name))
