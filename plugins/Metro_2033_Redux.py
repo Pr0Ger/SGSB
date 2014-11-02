@@ -4,7 +4,7 @@ from lib.paths import MyDocumentsPath, SteamGamesPath, SteamCloudPath
 
 
 class Metro2033ReduxPlugin(BasePlugin):
-    Name = "Metro 2033 Redix"
+    Name = "Metro 2033 Redux"
     support_os = ["Windows"]
 
     def backup(self, _):
