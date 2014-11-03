@@ -4,7 +4,7 @@ from dropbox.client import ErrorResponse
 
 class ChunkedProgressUploader(ChunkedUploader):
 
-    def upload_chunked(self, chunk_size = 4 * 1024 * 1024):
+    def upload_chunked(self, chunk_size = 128 * 1024):
 
         while self.offset < self.target_length:
             next_chunk_size = min(chunk_size, self.target_length - self.offset)
