@@ -6,6 +6,7 @@ MyDocumentsPath = None
 SavedGamesPath = None
 SteamGamesPath = None
 SteamCloudPath = None
+UbisoftSaves = None
 
 if platform.system() == 'Windows':
     import ctypes
@@ -32,6 +33,11 @@ if platform.system() == 'Windows':
     _ = os.path.join(profile_path, 'Saved Games')
     if os.path.isdir(_):
         SavedGamesPath = _
+
+    ubisoft_saves = os.path.join(os.environ["ProgramFiles"], 'Ubisoft', 'Ubisoft Game Launcher', 'savegames')
+    if os.path.exists(ubisoft_saves):
+        UbisoftSaves = os.path.join(ubisoft_saves, os.listdir(ubisoft_saves)[0])
+
 
 if platform.system() == 'Darwin':
 
