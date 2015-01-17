@@ -1,6 +1,6 @@
 import os
 from lib.base_plugin import BasePlugin
-from lib.path import UbisoftSaves
+from lib.paths import UbisoftSaves
 
 
 class AssassinsCreedIIPlugin(BasePlugin):
