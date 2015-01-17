@@ -34,9 +34,12 @@ if platform.system() == 'Windows':
     if os.path.isdir(_):
         SavedGamesPath = _
 
-    ubisoft_saves = os.path.join(os.environ["ProgramFiles"], 'Ubisoft', 'Ubisoft Game Launcher', 'savegames')
-    if os.path.exists(ubisoft_saves):
-        UbisoftSaves = os.path.join(ubisoft_saves, os.listdir(ubisoft_saves)[0])
+    ubisoft_saves1 = os.path.join(os.environ["ProgramFiles"], 'Ubisoft', 'Ubisoft Game Launcher', 'savegames')
+    ubisoft_saves2 = os.path.join(os.environ["ProgramFiles(X86)"], 'Ubisoft', 'Ubisoft Game Launcher', 'savegames')
+    if os.path.exists(ubisoft_saves1):
+        UbisoftSaves = os.path.join(ubisoft_saves1, os.listdir(ubisoft_saves1)[0])
+    if os.path.exists(ubisoft_saves2):
+        UbisoftSaves = os.path.join(ubisoft_saves2, os.listdir(ubisoft_saves2)[0])
 
 
 if platform.system() == 'Darwin':
