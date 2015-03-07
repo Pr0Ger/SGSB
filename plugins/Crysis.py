@@ -27,3 +27,4 @@ def factory(name, folder):
 
 CrysisPlugin = factory("Crysis", 'Crysis')
 CrysisWarheadPlugin = factory("Crysis Warhead", 'Crysis_WARHEAD')
+Crysic2Plugin = factory("Crysis 2", "Crysis2")
