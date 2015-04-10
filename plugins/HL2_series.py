@@ -22,4 +22,5 @@ def factory(name, folder):
     return TempPlugin
 
 
+HL2Plugin = factory("Half-Life 2", 'Half-Life 2')
 HL2UpdatePlugin = factory("Half-Life 2: Update", 'Half-Life 2 Update')
