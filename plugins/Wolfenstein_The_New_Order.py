@@ -2,18 +2,22 @@ import os
 from lib.base_plugin import BasePlugin
 from lib.paths import SavedGamesPath
 
+def factory(name, folder):
+    class TempPlugin(BasePlugin):
+        Name = name
+        support_os = ["Windows"]
 
-class WolfensteinTheNewOrderPlugin(BasePlugin):
-    Name = "Wolfenstein: The New Order"
-    support_os = ["Windows"]
+        def backup(self, _):
+            _.add_folder('Saves', os.path.join(SavedGamesPath, 'MachineGames'), folder)
 
-    def backup(self, _):
-        _.add_folder('Saves', os.path.join(SavedGamesPath, 'MachineGames'), 'Wolfenstein The New Order')
+        def restore(self, _):
+            _.restore_folder('Saves', os.path.join(SavedGamesPath, 'MachineGames'), folder)
 
-    def restore(self, _):
-        _.restore_folder('Saves', os.path.join(SavedGamesPath, 'MachineGames'), 'Wolfenstein The New Order')
+        def detect(self):
+            if os.path.isdir(os.path.join(SavedGamesPath, 'MachineGames', folder)):
+                return True
+            return False
+    return TempPlugin
 
-    def detect(self):
-        if os.path.isdir(os.path.join(SavedGamesPath, 'MachineGames', 'Wolfenstein The New Order')):
-            return True
-        return False
+WolfensteinTheNewOrderPlugin = factory("Wolfenstein: The New Order", 'Wolfenstein The New Order')
+WolfensteinTheOldBloodPlugin = factory("Wolfenstein: The Old Blood", 'Wolfenstein The Old Blood')
