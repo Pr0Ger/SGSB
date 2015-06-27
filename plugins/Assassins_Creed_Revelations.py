@@ -1,6 +1,6 @@
 import os
 from lib.base_plugin import BasePlugin
-from lib.paths import UbisoftSaves
+from lib.paths import UbisoftSaves, MyDocumentsPath
 
 
 class AssassinsCreedRevelationsPlugin(BasePlugin):
