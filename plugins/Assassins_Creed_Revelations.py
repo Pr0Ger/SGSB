@@ -16,6 +16,6 @@ class AssassinsCreedRevelationsPlugin(BasePlugin):
         _.restore_folder('Saves', UbisoftSaves, '40')
 
     def detect(self):
-        if os.path.isdir(MyDocumentsPath, 'Assassin\'s Creed Revelations'):
+        if os.path.isdir(os.path.join(MyDocumentsPath, 'Assassin\'s Creed Revelations')):
             return True
         return False
